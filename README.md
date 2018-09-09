@@ -1,8 +1,8 @@
-#UFES - Compiladores 2018/2#
+# UFES - Compiladores 2018/2
 
-Projeto de sintaxe da linguagem RemoveName;
+## Projeto de sintaxe da linguagem RemoveName;
 
-Caminho dos arquivos
+### Caminho dos arquivos
 
 removeName.sublime-syntax = [
 	/home/~~USER/.config/sublime-text-3/Packages/User
