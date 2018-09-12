@@ -23,14 +23,14 @@ contexts:
     - include: preprocessor-global
     - include: global
 
-  #############################################################################
+  ##############################################################################
   # Reusable contexts
   #
   # The follow contexts are currently constructed to be reused in the C++
   # syntax. They are specifically constructed to not push into sub-contexts,
   # which ensures that C++ code isn't accidentally lexed as plain C. They also
   # should not use the {{identifier}} variable since that is different for C++.
-  #############################################################################
+  ##############################################################################
 
   comments:
     - match: ^/\* =(\s*.*?)\s*= \*/$\n?
