@@ -3,7 +3,7 @@
 ## Projeto de sintaxe da linguagem [[RemoveName]];
 
 ### __Caminho dos arquivos__:
-```
+```bash
 	removeName.sublime-syntax = [/home/~~USER/.config/sublime-text-3/Packages/User]
 	
 	removeName.tmTheme = [/home/~~USER/.config/sublime-text-3/Packages/removeName]
