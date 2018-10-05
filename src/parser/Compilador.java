@@ -2,31 +2,38 @@
 package parser;
 import semantico.*;
 import apoio.*;
-import java.io.*;
 import gerador.*;
+import primitivo.*;
+import java.io.*;
+
 public class Compilador implements CompiladorConstants {
-   static Tabela tabela = new Tabela();
-   public static void main(String args[])  throws ParseException  {
-      Compilador compilador = null;
-      try {
-         compilador = new Compilador(new FileInputStream("exemplos/exemplo17.spc"));
-         Compilador.inicio();
+        static Tabela tabela = new Tabela();
+        ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
+        ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
+        String codigoDestino = null;
 
-      }
-      catch(FileNotFoundException e) {
-         System.out.println(e.getMessage());
-      }
-      catch(TokenMgrError e) {
-         System.out.println("Erro lexico\u005cn" + e.getMessage());
-      }
-      catch(ParseException e) {
-         System.out.println("Erro sint\ufffdtico\u005cn" + e.getMessage());
-      }
-      catch(ErroSemantico e) {
-         System.out.println(e.getMessage());
-      }
-   }
+        public static void main(String args[])  throws ParseException  {
+                Compilador compilador = null;
+                try {
+                        compilador = new Compilador(new FileInputStream("exemplos/exemplo17.spc"));
+                        Compilador.inicio();
 
+                }
+                catch(FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                }
+                catch(TokenMgrError e) {
+                        System.out.println("Erro lexico\u005cn" + e.getMessage());
+                }
+                catch(ParseException e) {
+                        System.out.println("Erro sint\u00e1tico\u005cn" + e.getMessage());
+                }
+                catch(ErroSemantico e) {
+                        System.out.println(e.getMessage());
+                }
+        }
+
+/******************************************************************/
   static final public void inicio() throws ParseException {
     programa();
     jj_consume_token(0);
@@ -84,7 +91,7 @@ public class Compilador implements CompiladorConstants {
   static final public void atribuicao() throws ParseException {
                      Token t;
     t = jj_consume_token(VAR);
-        AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
+                AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
     jj_consume_token(ATRIB);
     expressao();
     jj_consume_token(PV);
@@ -95,11 +102,11 @@ public class Compilador implements CompiladorConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMERO:
       jj_consume_token(NUMERO);
-                  tipo= "NUMERO";
+                     tipo = "NUMERO";
       break;
     case PALAVRA:
       jj_consume_token(PALAVRA);
-                                               tipo= "PALAVRA";
+                      tipo = "PALAVRA";
       break;
     default:
       jj_la1[2] = jj_gen;
@@ -178,7 +185,7 @@ public class Compilador implements CompiladorConstants {
       }
       jj_consume_token(VIRGULA);
       t = jj_consume_token(VAR);
-        AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
+                AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
     }
     jj_consume_token(PV);
   }
@@ -205,7 +212,7 @@ public class Compilador implements CompiladorConstants {
   static final public void expressao() throws ParseException {
                     Expressao expressao = new Expressao();
     expressaoAuxiliar(expressao);
-     System.out.println(expressao.getListaExpPosFixa().toString());
+                System.out.println(expressao.getListaExpPosFixa().toString());
   }
 
   static final public void expressaoAuxiliar(Expressao expressao) throws ParseException {
@@ -223,7 +230,7 @@ public class Compilador implements CompiladorConstants {
       }
       t = jj_consume_token(OU);
       termo(expressao);
-     expressao.addListaPos (t.image, Tipo.OPERADOR);
+                expressao.addListaPos (t.image, Tipo.OPERADOR);
     }
   }
 
@@ -234,7 +241,7 @@ public class Compilador implements CompiladorConstants {
     case IGUAL:
       t = jj_consume_token(IGUAL);
       termo1(expressao);
-     expressao.addListaPos (t.image, Tipo.OPERADOR);
+                expressao.addListaPos (t.image, Tipo.OPERADOR);
       break;
     default:
       jj_la1[9] = jj_gen;
@@ -257,7 +264,7 @@ public class Compilador implements CompiladorConstants {
       }
       t = jj_consume_token(CONCAT);
       termo2(expressao);
-     expressao.addListaPos (t.image, Tipo.OPERADOR);
+                expressao.addListaPos (t.image, Tipo.OPERADOR);
     }
   }
 
@@ -288,7 +295,7 @@ public class Compilador implements CompiladorConstants {
         throw new ParseException();
       }
       termo3(expressao);
-     expressao.addListaPos (t.image, Tipo.OPERADOR);
+                expressao.addListaPos (t.image, Tipo.OPERADOR);
     }
   }
 
@@ -319,7 +326,7 @@ public class Compilador implements CompiladorConstants {
         throw new ParseException();
       }
       termo4(expressao);
-     expressao.addListaPos (t.image, Tipo.OPERADOR);
+                expressao.addListaPos (t.image, Tipo.OPERADOR);
     }
   }
 
@@ -333,26 +340,26 @@ public class Compilador implements CompiladorConstants {
       break;
     case NUM:
       valor = jj_consume_token(NUM);
-     expressao.addListaPos (valor.image, Tipo.NUMERO);
+                expressao.addListaPos(valor.image, Tipo.NUMERO);
       break;
     case SOMA:
       sinal = jj_consume_token(SOMA);
       valor = jj_consume_token(NUM);
-     expressao.addListaPos (sinal.image+valor.image, Tipo.NUMERO);
+                expressao.addListaPos(sinal.image + valor.image, Tipo.NUMERO);
       break;
     case SUB:
       sinal = jj_consume_token(SUB);
       valor = jj_consume_token(NUM);
-     expressao.addListaPos (sinal.image+valor.image, Tipo.NUMERO);
+                expressao.addListaPos (sinal.image + valor.image, Tipo.NUMERO);
       break;
     case VAR:
       t = jj_consume_token(VAR);
-     AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
-     expressao.addListaPos (t.image, Tipo.VARIAVEL);
+                AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
+                expressao.addListaPos(t.image, Tipo.VARIAVEL);
       break;
     case STRING:
       valor = jj_consume_token(STRING);
-     expressao.addListaPos (valor.image, Tipo.PALAVRA);
+                expressao.addListaPos(valor.image, Tipo.PALAVRA);
       break;
     default:
       jj_la1[15] = jj_gen;

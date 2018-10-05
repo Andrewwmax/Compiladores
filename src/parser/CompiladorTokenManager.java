@@ -2,8 +2,9 @@
 package parser;
 import semantico.*;
 import apoio.*;
-import java.io.*;
 import gerador.*;
+import primitivo.*;
+import java.io.*;
 
 /** Token Manager. */
 public class CompiladorTokenManager implements CompiladorConstants

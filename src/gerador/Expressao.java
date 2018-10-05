@@ -2,6 +2,7 @@ package gerador;
 
 import java.util.LinkedList;
 
+import semantico.Item;
 import semantico.Tipo;
 
 public class Expressao {
