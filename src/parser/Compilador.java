@@ -12,10 +12,10 @@ public class Compilador implements CompiladorConstants {
         ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
         String codigoDestino = null;
 
-        public static void main(String args[])  throws ParseException  {
+        public static void main(String args[])  throws ParseException, IOException  {
                 Compilador compilador = null;
                 try {
-                        Config.salvarEmDisco("exemplos/exemplo5.spc");
+                        Config.salvarEmDisco("exemplos/17.spc");
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
                         Compilador.inicio();
 

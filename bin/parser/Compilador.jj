@@ -17,10 +17,10 @@ public class Compilador {
 	ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
 	String codigoDestino = null;
 
-	public static void main(String args[])  throws ParseException  {
+	public static void main(String args[])  throws ParseException, IOException  {
 		Compilador compilador = null;
 		try {
-//		  	Config.salvarEmDisco("exemplos/exemplo17.spc");
+			Config.salvarEmDisco("exemplos/17.spc");
 			compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
 			Compilador.inicio();
 
@@ -110,16 +110,17 @@ void atribuicao() : {Token t;} {
 
 void declaracao() : {Token t; TipoDado tipo;} { 
 	( <NUMERO> { tipo = TipoDado.NUM; } 
-	| <PALAVRA> { tipo = TipoDado.STR; } ) 
+	| <PALAVRA> { tipo = TipoDado.STR; } )
 	
 	t = <VAR> {
-		tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
-	}
+	  // System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
+		tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
+		}
 	( <ATRIB> expressao() )? 
 	( <VIRGULA> t = <VAR> {
-			tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
+		tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
 		}
-		( <ATRIB> expressao() )? 
+	( <ATRIB> expressao() )? 
 	)* <PV> 
 }
 
@@ -196,7 +197,7 @@ void termo4(Expressao expressao) : {Token t; Token tipo; Token valor; Token sina
 		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
 	}
 	| t = <VAR> {
-		System.out.println(tabela.toString());
+//		System.out.println(tabela.toString());
 		AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
 		expressao.addItemPosfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
 	}

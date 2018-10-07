@@ -1,15 +1,20 @@
 package apoio;
 // java -classpath /usr/local/lib/javacc/bin/javacc.jar javacc Compilador.jj
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.ObjectOutput;
 
 public interface Config extends Serializable {
@@ -22,30 +27,28 @@ public interface Config extends Serializable {
     public String EXT1PASSAGEM = ".j";
     public String EXT2PASSAGEM = ".cir";
 
-    static public void salvarEmDisco(String x) {
-        File arquivo = new File("config.spc");
-        try (FileOutputStream fout = new FileOutputStream(arquivo);
-                ObjectOutput oos = new ObjectOutputStream(fout)) {
-
-            oos.writeObject(x);
-            oos.flush();
-
-        } catch (Exception ex) {
-            System.out.println("Arquivo não carregado, está com problema no SPC");
-        }
+    public static void salvarEmDisco(String x) throws IOException {
+    	OutputStreamWriter bufferOut = new OutputStreamWriter(new FileOutputStream("config.txt"),"UTF-8");
+  
+    	bufferOut.write(x);
+		
+		bufferOut.close();
     }
 
-    static public String lerDoDisco(){
-
+    static public String lerDoDisco() {
         String path = null;
-        File arquivo = new File("config.spc");
-        try (FileInputStream fin = new FileInputStream(arquivo);
-                ObjectInputStream oin = new ObjectInputStream(fin)) {
-
-            path = (String) oin.readObject();
-
-        } catch (Exception ex) {
-            System.out.println("Arquivo não carregado, está com problema no SPC");
+        try {
+			BufferedReader myBuffer = new BufferedReader(new InputStreamReader(new FileInputStream("config.txt"), "UTF-8"));
+			path = myBuffer.readLine();
+	
+	//	    multiplas linhas;
+	//    	while (myBuffer != null) {
+	//	    	path += myBuffer.readLine();
+	//	    }
+		 
+	        myBuffer.close();
+        } catch (Exception e) { 
+        	e.getMessage();
         }
         return path;
     }
