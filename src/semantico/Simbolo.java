@@ -14,6 +14,13 @@ public class Simbolo {
         this.tipo = tipo;
         this.referencia = referencia;
     }
+    
+    public Simbolo(String _nome, Token token, TipoDado tipo, int referencia) {
+        this.nome = _nome;
+    	this.token = token;
+        this.tipo = tipo;
+        this.referencia = referencia;
+    }
 
     public String getLexema() {
         return null;

@@ -14,19 +14,17 @@ public class Tabela {
         this.setMarcador(1);
     }
 
-    public boolean incluiSimbolo(Simbolo _simb) {
+    public void incluiSimbolo(Simbolo _simb) {
         if (this.tab.containsKey(_simb.getNome())) {
-            return false;
+            throw new ErroSemantico("Erro: Simbolo " + _simb + " já existe");
         } else {
             _simb.setReferencia(proximaReferencia);
             this.tab.put(_simb.getNome(), _simb);
 
-            if (_simb.getTipo().equals(TipoDado.NUM)) {
-                this.proximaReferencia += 2;
-            } else {
-                this.proximaReferencia++;
-            }
-            return true;
+            if (_simb.getTipo().equals(TipoDado.NUM)) 
+            	this.proximaReferencia += 2;
+            else this.proximaReferencia++;
+            
         }
     }
 
@@ -65,18 +63,21 @@ public class Tabela {
         this.proximaReferencia = marcador;
     }
 
-    public static Tabela adicionarTabela(Tabela tabela, Token t, TipoDado _tipo, int _ref) {
+    public void adicionarTabela(Tabela tabela, Token t, TipoDado _tipo, int _ref) {
         if ((tabela.verificaExistenciaSimbolo(t.image))) {
-            throw new ErroSemantico("Erro: variável " + t.image + " duplicada na linha " + _ref);
+            throw new ErroSemantico("Erro: variável " + t.image + " duplicada.");
         } else {
-            if (_tipo.equals(TipoDado.NUM)) {
-                Simbolo simb = new Simbolo(t, TipoDado.NUM, _ref);
+//        	System.out.println("TDado " + _tipo.toString() + ". Ref " + _ref);
+
+        	if (_tipo.equals(TipoDado.NUM)) {
+                Simbolo simb = new Simbolo(t.image, t, TipoDado.NUM, _ref);
                 tabela.incluiSimbolo(simb);
             } else {
-                Simbolo simb = new Simbolo(t, TipoDado.STR, _ref);
+                Simbolo simb = new Simbolo(t.image, t, TipoDado.STR, _ref);
                 tabela.incluiSimbolo(simb);
             }
+//          System.out.println(tabela.toString());
         }
-        return tabela;
+//        return tabela;
     }
 }

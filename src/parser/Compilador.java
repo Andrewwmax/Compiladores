@@ -15,7 +15,7 @@ public class Compilador implements CompiladorConstants {
         public static void main(String args[])  throws ParseException  {
                 Compilador compilador = null;
                 try {
-//		  	Config.salvarEmDisco("exemplos/exemplo17.spc");
+                        Config.salvarEmDisco("exemplos/exemplo5.spc");
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
                         Compilador.inicio();
 
@@ -115,7 +115,8 @@ public class Compilador implements CompiladorConstants {
       throw new ParseException();
     }
     t = jj_consume_token(VAR);
-                tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
+          // System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
+                tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ATRIB:
       jj_consume_token(ATRIB);
@@ -137,7 +138,7 @@ public class Compilador implements CompiladorConstants {
       }
       jj_consume_token(VIRGULA);
       t = jj_consume_token(VAR);
-                        tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
+                tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ATRIB:
         jj_consume_token(ATRIB);
@@ -357,7 +358,7 @@ public class Compilador implements CompiladorConstants {
       break;
     case VAR:
       t = jj_consume_token(VAR);
-                System.out.println(tabela.toString());
+//		System.out.println(tabela.toString());
                 AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
                 expressao.addItemPosfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
       break;
