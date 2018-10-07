@@ -1,44 +1,49 @@
 package semantico;
 
+import parser.Token;
 
 public class Simbolo {
-	private String nome;
-	private Tipo tipo;
-	private int referencia;
 
+    private String nome;
+    private Token token;
+    private TipoDado tipo;
+    private int referencia;
 
-    public Simbolo(String nome, Tipo tipo) {
-        this.nome = nome;
-        this.setTipo(tipo);
-  }
+    public Simbolo(Token token, TipoDado tipo, int referencia) {
+        this.token = token;
+        this.tipo = tipo;
+        this.referencia = referencia;
+    }
 
-	public String getNome() {
-		return this.nome;
-	}
+    public String getLexema() {
+        return null;
+    }
 
+    public String getNome() {
+        return this.nome;
+    }
 
-	public int getReferencia() {
-		return this.referencia;
-	}
+    public int getReferencia() {
+        return this.referencia;
+    }
 
-	
-	public void setReferencia(int referencia) {
-		this.referencia = referencia;
-	}
-	
-	public String toString() {
+    public TipoDado getTipo() {
+        return this.tipo;
+    }
 
-	      return "\n" + "Nome:"+this.getNome() + "\t" + "Tipo:"+this.getTipo()
+    public void setReferencia(int referencia) {
+        this.referencia = referencia;
+    }
 
-	             + "\t" + "Referência:"+this.getReferencia();
-	}
+    @Override
+    public String toString() {
 
-	public Tipo getTipo() {
-		return this.tipo;
-	}
+        return "\n" + "Nome:" + this.getNome() + "\t" + "Tipo:" + this.getTipo()
+                + "\t" + "ReferÃªncia:" + this.getReferencia();
+    }
 
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
-	}
+    public void setTipo(TipoDado tipo) {
+        this.tipo = tipo;
+    }
 
 }

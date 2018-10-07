@@ -2,16 +2,26 @@ package primitivo;
 
 public class PrimitivoSeExpFalsoGoto extends ComandoPrimitivo {
 
-	@Override
-	public String geraCodigoDestino() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private String expDestinoAssembler;
+    private PrimitivoLabel labelFalse;
+    private ListaComandosPrimitivos listaComandosPrimitivosTrue;
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public PrimitivoSeExpFalsoGoto(String expDestinoAssembler, PrimitivoLabel labelFalse, ListaComandosPrimitivos listaComandosPrimitivosTrue) {
+        this.expDestinoAssembler = expDestinoAssembler;
+        this.labelFalse = labelFalse;
+        this.listaComandosPrimitivosTrue = listaComandosPrimitivosTrue;
+    }
+
+    @Override
+    public String geraCodigoDestino() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

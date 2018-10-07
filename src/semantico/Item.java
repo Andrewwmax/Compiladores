@@ -1,32 +1,19 @@
 package semantico;
 
-public class Item {
-	
-	private Tipo tipo;
-	private String valor;
-		
-	public Item() {
+import parser.Token;
 
-	}
+public abstract class Item {
 
-	public String getValor() {
-		return this.valor;
-	}
+    Token token;
 
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
+    public Item(Token token) {
+        this.token = token;
+    }
 
-	public String toString() {
-		return this.getValor() + "(" + this.getTipo() +")";
-	}
-	
-	public Tipo getTipo() {
-		return this.tipo;
-	}
+    public String getLexema() {
+        return null;
+    }
 
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
-	}
-
+    @Override
+    public abstract String toString();
 }

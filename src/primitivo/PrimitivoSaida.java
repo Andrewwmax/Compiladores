@@ -1,17 +1,27 @@
 package primitivo;
 
+import semantico.TipoDado;
+
 public class PrimitivoSaida extends ComandoPrimitivo {
 
-	@Override
-	public String geraCodigoDestino() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private TipoDado tipo;
+    private String expDestinoAssembler;
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public PrimitivoSaida(TipoDado tipo, String expDestinoAssembler) {
+        this.tipo = tipo;
+        this.expDestinoAssembler = expDestinoAssembler;
+    }
+
+    @Override
+    public String geraCodigoDestino() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -20,7 +20,8 @@ public class Compilador {
 	public static void main(String args[])  throws ParseException  {
 		Compilador compilador = null;
 		try {
-			compilador = new Compilador(new FileInputStream("exemplos/exemplo17.spc"));
+//		  	Config.salvarEmDisco("exemplos/exemplo17.spc");
+			compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
 			Compilador.inicio();
 
 		}
@@ -107,25 +108,28 @@ void atribuicao() : {Token t;} {
 	} <ATRIB> expressao() <PV>
 }
 
-void declaracao() : {Token t; String tipo;} { 
-	( <NUMERO> { tipo = "NUMERO"; } 
-	| <PALAVRA> { tipo = "PALAVRA"; } ) 
+void declaracao() : {Token t; TipoDado tipo;} { 
+	( <NUMERO> { tipo = TipoDado.NUM; } 
+	| <PALAVRA> { tipo = TipoDado.STR; } ) 
 	
 	t = <VAR> {
-		AcoesSemanticas.adicionarTabela (tabela, t.image, tipo, t.endLine);
+		tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
 	}
 	( <ATRIB> expressao() )? 
 	( <VIRGULA> t = <VAR> {
-		AcoesSemanticas.adicionarTabela (tabela, t.image, tipo, t.endLine);
-	}
-	( <ATRIB> expressao() )? )* <PV> 
+			tabela = Tabela.adicionarTabela(tabela, t, tipo, t.endLine);
+		}
+		( <ATRIB> expressao() )? 
+	)* <PV> 
 }
 
 void se() : {} {
+
 	<SE> <AP> expressao() <FP> programa() <FIMSE>
 }
 
 void enquanto() : {} {
+
 	<ENQUANTO> <AP> expressao() <FP> programa() <FIMENQUANTO>
 }
 
@@ -139,62 +143,64 @@ void le() : {Token t;} {
 }
 
 void exibe() : {} {
+
 	<EXIBE> expressao() ( <VIRGULA> expressao() )* <PV>
 }
 
 void expressao() : {Expressao expressao = new Expressao();} {
 	expressaoAuxiliar(expressao) { 
-		System.out.println(expressao.getListaExpPosFixa().toString());
+		System.out.println(expressao.getListaExpressaoPosFixa().toString());
 	}
 }
 
-void expressaoAuxiliar(Expressao expressao) : {Token t;} {
-	termo(expressao)(t = <OU>termo(expressao) {
-		expressao.addListaPos (t.image, Tipo.OPERADOR);
+void expressaoAuxiliar(Expressao expressao) : {Token t; Item item; } {
+	termo(expressao)(t = <OU> termo(expressao) {
+		expressao.addItemPosfixo(item = new Operador(t, TipoOperador.OU));
 	} )*
-
 }
-
-void termo(Expressao expressao) : {Token t;} {
+void termo(Expressao expressao) : {Token t; Item item; } {
 	termo1(expressao) (t = <IGUAL> termo1(expressao) {
-		expressao.addListaPos (t.image, Tipo.OPERADOR);
+		expressao.addItemPosfixo(item = new Operador(t, TipoOperador.IGUAL));
 	} )?
 }
 
-void termo1(Expressao expressao) : {Token t;} {
+void termo1(Expressao expressao) : {Token t; Item item;} {
 	termo2(expressao) (t = <CONCAT> termo2(expressao) {
-		expressao.addListaPos (t.image, Tipo.OPERADOR);
+		expressao.addItemPosfixo(item = new Operador(t, TipoOperador.CONCAT));
 	} )*
 }
 
-void termo2(Expressao expressao) : {Token t;} {
+void termo2(Expressao expressao) : {Token t; Item item;} {
 	termo3(expressao) ((t = <SOMA> | t = <SUB>) termo3(expressao) {
-		expressao.addListaPos (t.image, Tipo.OPERADOR);
+		expressao.addItemPosfixo(item = new Operador(t, t.equals(TipoOperador.ADD) ? TipoOperador.ADD : TipoOperador.SUB));
 	} )*
 }
 
-void termo3(Expressao expressao) : {Token t;} {
+void termo3(Expressao expressao) : {Token t; Item item;} {
 	termo4(expressao) ((t = <MUL> | t = <DIV>) termo4(expressao) {
-		expressao.addListaPos (t.image, Tipo.OPERADOR);
+		expressao.addItemPosfixo(item = new Operador(t, t.equals(TipoOperador.MUL) ? TipoOperador.MUL : TipoOperador.DIV));
 	} )*
 }
 
-void termo4(Expressao expressao) : {Token t; Token tipo; Token valor; Token sinal;} {
+void termo4(Expressao expressao) : {Token t; Token tipo; Token valor; Token sinal; Item item;} {
 	<AP> expressaoAuxiliar(expressao) <FP>
 	| valor = <NUM> {
-		expressao.addListaPos(valor.image, Tipo.NUMERO);
+		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
 	}
-	|sinal = <SOMA> valor = <NUM> {
-		expressao.addListaPos(sinal.image + valor.image, Tipo.NUMERO);
+	| sinal = <SOMA> valor = <NUM> {
+		expressao.addItemPosfixo(item = new Operador(sinal, TipoOperador.ADD));
+		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
 	}
 	| sinal = <SUB> valor = <NUM> {
-		expressao.addListaPos (sinal.image + valor.image, Tipo.NUMERO);
+		expressao.addItemPosfixo(item = new Operador(sinal, TipoOperador.SUB));
+		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
 	}
 	| t = <VAR> {
+		System.out.println(tabela.toString());
 		AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
-		expressao.addListaPos(t.image, Tipo.VARIAVEL);
+		expressao.addItemPosfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
 	}
 	| valor = <STRING> {
-		expressao.addListaPos(valor.image, Tipo.PALAVRA);
+		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.STR, TipoElemento.CTE));
 	}
 }

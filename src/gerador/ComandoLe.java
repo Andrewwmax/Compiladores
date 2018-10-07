@@ -1,9 +1,11 @@
 package gerador;
 
+import primitivo.ListaComandosPrimitivos;
+
 public class ComandoLe extends ComandoAltoNivel {
 
     @Override
-    public ListaComandos geraCodigo() {
+    public ListaComandosPrimitivos geraListaComandosPrimitivos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -11,5 +13,5 @@ public class ComandoLe extends ComandoAltoNivel {
     public String toString() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-	
+
 }

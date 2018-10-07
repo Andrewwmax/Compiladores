@@ -2,16 +2,22 @@ package primitivo;
 
 public class PrimitivoGoto extends ComandoPrimitivo {
 
-	@Override
-	public String geraCodigoDestino() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private PrimitivoLabel label;
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public PrimitivoGoto(PrimitivoLabel label) {
+        this.label = label;
+    }
+
+    @Override
+    public String geraCodigoDestino() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
