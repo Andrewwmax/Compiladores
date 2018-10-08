@@ -8,10 +8,12 @@ public class ComandoEnquanto extends ComandoAltoNivel {
     private Expressao expressao;
     private ListaComandosAltoNivel listaComandosAltoNivelTrue;
 
-    public void ComandoEnquanto(Expressao _exp, ListaComandosAltoNivel _lista) {
-    }
+    public ComandoEnquanto(Expressao expressao, ListaComandosAltoNivel listaComandosAltoNivelTrue) {
+		this.expressao = expressao;
+		this.listaComandosAltoNivelTrue = listaComandosAltoNivelTrue;
+	}
 
-    @Override
+	@Override
     public ListaComandosPrimitivos geraListaComandosPrimitivos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

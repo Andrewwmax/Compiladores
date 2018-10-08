@@ -10,6 +10,7 @@ public class ListaComandosAltoNivel {
     }
 
     public void addComando(ComandoAltoNivel _cmd) {
+    	this.ListaComandosAltoNivel.add(_cmd);
     }
 
     public LinkedList<ComandoAltoNivel> getListaComandosAltoNivel() {

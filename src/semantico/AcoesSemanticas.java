@@ -1,7 +1,6 @@
-package apoio;
+package semantico;
 
-import semantico.Tabela;
-import semantico.Simbolo;
+import apoio.ErroSemantico;
 
 public class AcoesSemanticas {
 

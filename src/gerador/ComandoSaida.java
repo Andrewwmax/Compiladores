@@ -7,10 +7,11 @@ public class ComandoSaida extends ComandoAltoNivel {
 
     private Expressao expressao;
 
-    public void ComandoSaida(Expressao _exp) {
-    }
+    public ComandoSaida(Expressao expressao) {
+		this.expressao = expressao;
+	}
 
-    @Override
+	@Override
     public ListaComandosPrimitivos geraListaComandosPrimitivos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

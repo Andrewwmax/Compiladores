@@ -11,8 +11,8 @@ public abstract class ComandoAltoNivel {
 
     private Token token; //somente o Principal
 
-    public String getLexema() {
-        return null;
+	public String getLexema() {
+        return token.image;
     }
 
     public abstract ListaComandosPrimitivos geraListaComandosPrimitivos();

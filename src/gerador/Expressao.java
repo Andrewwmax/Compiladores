@@ -16,7 +16,7 @@ public class Expressao {
         expressaoPosfixa = new LinkedList<Item>();
     }
 
-    public LinkedList<Item> getListaExpressaoInfixa() {
+    public LinkedList<Item> getListaExpressaoInFixa() {
         return this.expressaoInfixa;
     }
 
@@ -39,6 +39,13 @@ public class Expressao {
     public void addItemPosfixo(Item _item) {
         expressaoPosfixa.add(_item);
     }
+    
+    //  Une a segunda exp a primeira, retorna a primeira contendo as duas
+    public Expressao concatExpressoes(Expressao _exp1, Expressao _exp2) {
+    	_exp1.expressaoInfixa.addAll(_exp2.expressaoInfixa);
+       	_exp1.expressaoPosfixa.addAll(_exp2.expressaoPosfixa);
+    	return _exp1;
+    }
 
     public String geraCodigoDestino() {
         return null;
@@ -55,7 +62,7 @@ public class Expressao {
 
     @Override
     public String toString() {
-        return "Expressao posfixa: " + this.expressaoPosfixa + "";
+        return "\nExpressao posfixa: " + this.expressaoPosfixa + "";
     }
 
     /*

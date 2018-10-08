@@ -4,7 +4,8 @@ import primitivo.ListaComandosPrimitivos;
 
 public class ComandoCondicionalSimples extends ComandoCondicional {
 
-    public void ComandoCondicionalSimples(Expressao _exp, ListaComandosAltoNivel _lista) {
+    public ComandoCondicionalSimples(Expressao _exp, ListaComandosAltoNivel _lista) {
+    	super(_exp, _lista);
     }
 
     @Override

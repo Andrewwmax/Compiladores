@@ -10,7 +10,8 @@ public class Simbolo {
     private int referencia;
 
     public Simbolo(Token token, TipoDado tipo, int referencia) {
-        this.token = token;
+        this.nome = token.image;
+    	this.token = token;
         this.tipo = tipo;
         this.referencia = referencia;
     }
@@ -45,8 +46,8 @@ public class Simbolo {
     @Override
     public String toString() {
 
-        return "\n" + "Nome:" + this.getNome() + "\t" + "Tipo:" + this.getTipo()
-                + "\t" + "Referência:" + this.getReferencia();
+        return "\nNome:" + this.getNome() + "\tToken" + this.token.image + "\tTipo:" + this.getTipo()
+                + "\tReferência:" + this.getReferencia();
     }
 
     public void setTipo(TipoDado tipo) {

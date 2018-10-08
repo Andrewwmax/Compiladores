@@ -7,10 +7,11 @@ public class ComandoEntrada extends ComandoAltoNivel {
 
     private Simbolo variavel;
 
-    public void ComandoEntrada(Simbolo _simb) {
-    }
+    public ComandoEntrada(Simbolo variavel) {
+		this.variavel = variavel;
+	}
 
-    @Override
+	@Override
     public ListaComandosPrimitivos geraListaComandosPrimitivos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

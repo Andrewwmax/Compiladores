@@ -69,11 +69,11 @@ public class Tabela {
         } else {
 //        	System.out.println("TDado " + _tipo.toString() + ". Ref " + _ref);
 
-        	if (_tipo.equals(TipoDado.NUM)) {
-                Simbolo simb = new Simbolo(t.image, t, TipoDado.NUM, _ref);
+        	if (_tipo.equals(TipoDado.NUM)) {// Contrutor com 3 ou 4 param
+                Simbolo simb = new Simbolo(t, TipoDado.NUM, _ref);
                 tabela.incluiSimbolo(simb);
             } else {
-                Simbolo simb = new Simbolo(t.image, t, TipoDado.STR, _ref);
+                Simbolo simb = new Simbolo(t, TipoDado.STR, _ref);
                 tabela.incluiSimbolo(simb);
             }
 //          System.out.println(tabela.toString());

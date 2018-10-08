@@ -4,13 +4,18 @@ import primitivo.ListaComandosPrimitivos;
 import semantico.Simbolo;
 
 public class ComandoAtribuicao extends ComandoAltoNivel {
-    private Simbolo variavel;
+    
+	private Simbolo variavel;
     private Expressao expressao;
-    public void ComandoAtribuicao(Simbolo _simb, Expressao _exp) {
+    
+    public ComandoAtribuicao(Simbolo _simb, Expressao _exp) {
+    	this.variavel = _simb;
+    	this.expressao = _exp;
     }
+    
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	return "Comando Atribuicao de simbolo:" + this.variavel.toString() + "\nE expresssao:" + this.expressao.toString();
     }
 
     @Override

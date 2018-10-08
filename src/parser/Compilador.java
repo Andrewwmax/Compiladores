@@ -8,16 +8,23 @@ import java.io.*;
 
 public class Compilador implements CompiladorConstants {
         static Tabela tabela = new Tabela();
-        ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
-        ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
-        String codigoDestino = null;
+
 
         public static void main(String args[])  throws ParseException, IOException  {
                 Compilador compilador = null;
                 try {
-                        Config.salvarEmDisco("exemplos/17.spc");
+                        //Config.salvarEmDisco("exemplos/exemplo5.spc");
+
+                        ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
-                        Compilador.inicio();
+                        listaComandosAltoNivel = Compilador.inicio();
+                        System.out.println("\u005cnTabela de simbolos: \u005cn" + tabela);
+                        System.out.println("\u005cn-----\u005cnLista completa dos comandos apos a 1a passagem do compilador: \u005cn" + listaComandosAltoNivel);
+
+
+                        ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
+
+                        String codigoDestino = "";
 
                 }
                 catch(FileNotFoundException e) {
@@ -35,12 +42,16 @@ public class Compilador implements CompiladorConstants {
         }
 
 /******************************************************************/
-  static final public void inicio() throws ParseException {
-    programa();
+  static final public ListaComandosAltoNivel inicio() throws ParseException {
+                                   ListaComandosAltoNivel lista;
+    lista = programa();
     jj_consume_token(0);
+          {if (true) return lista;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void programa() throws ParseException {
+  static final public ListaComandosAltoNivel programa() throws ParseException {
+                                     ComandoAltoNivel cmd = null; ListaComandosAltoNivel lista = new ListaComandosAltoNivel();
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -57,45 +68,42 @@ public class Compilador implements CompiladorConstants {
         jj_la1[0] = jj_gen;
         break label_1;
       }
-      comando();
+      cmd = comando();
+                        if(cmd != null) lista.addComando(cmd);
     }
+          {if (true) return lista;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void comando() throws ParseException {
+  static final public ComandoAltoNivel comando() throws ParseException {
+                               ComandoAltoNivel cmd = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case VAR:
-      atribuicao();
-      break;
     case NUMERO:
     case PALAVRA:
       declaracao();
       break;
+    case VAR:
+      cmd = atribuicao();
+      break;
     case SE:
-      se();
+      cmd = condicional();
       break;
     case ENQUANTO:
-      enquanto();
+      cmd = enquanto();
       break;
     case LEITURA:
-      le();
+      cmd = entrada();
       break;
     case EXIBE:
-      exibe();
+      cmd = saida();
       break;
     default:
       jj_la1[1] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-  }
-
-  static final public void atribuicao() throws ParseException {
-                     Token t;
-    t = jj_consume_token(VAR);
-                AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
-    jj_consume_token(ATRIB);
-    expressao();
-    jj_consume_token(PV);
+          {if (true) return cmd;}
+    throw new Error("Missing return statement in function");
   }
 
   static final public void declaracao() throws ParseException {
@@ -103,11 +111,11 @@ public class Compilador implements CompiladorConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMERO:
       jj_consume_token(NUMERO);
-                     tipo = TipoDado.NUM;
+                        tipo = TipoDado.NUM;
       break;
     case PALAVRA:
       jj_consume_token(PALAVRA);
-                      tipo = TipoDado.STR;
+                        tipo = TipoDado.STR;
       break;
     default:
       jj_la1[2] = jj_gen;
@@ -115,7 +123,7 @@ public class Compilador implements CompiladorConstants {
       throw new ParseException();
     }
     t = jj_consume_token(VAR);
-          // System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
+                System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
                 tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ATRIB:
@@ -138,7 +146,7 @@ public class Compilador implements CompiladorConstants {
       }
       jj_consume_token(VIRGULA);
       t = jj_consume_token(VAR);
-                tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
+                        tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ATRIB:
         jj_consume_token(ATRIB);
@@ -152,26 +160,43 @@ public class Compilador implements CompiladorConstants {
     jj_consume_token(PV);
   }
 
-  static final public void se() throws ParseException {
+  static final public ComandoAltoNivel atribuicao() throws ParseException {
+                                 Token t; ComandoAltoNivel cmd = null; Expressao expressao;
+    t = jj_consume_token(VAR);
+                AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
+    jj_consume_token(ATRIB);
+    expressao = expressao();
+    jj_consume_token(PV);
+          {if (true) return new ComandoAtribuicao(new Simbolo(t, TipoDado.getTipoDado(t.image), tabela.getMarcador()), expressao);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public ComandoAltoNivel condicional() throws ParseException {
+                                   ComandoAltoNivel cmd = null; Expressao expressao; ListaComandosAltoNivel lista;
     jj_consume_token(SE);
     jj_consume_token(AP);
-    expressao();
+    expressao = expressao();
     jj_consume_token(FP);
-    programa();
+    lista = programa();
     jj_consume_token(FIMSE);
+          {if (true) return new ComandoCondicionalSimples(expressao, lista);}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void enquanto() throws ParseException {
+  static final public ComandoAltoNivel enquanto() throws ParseException {
+                                ComandoAltoNivel cmd = null; Expressao expressao; ListaComandosAltoNivel lista;
     jj_consume_token(ENQUANTO);
     jj_consume_token(AP);
-    expressao();
+    expressao = expressao();
     jj_consume_token(FP);
-    programa();
+    lista = programa();
     jj_consume_token(FIMENQUANTO);
+          {if (true) return new ComandoEnquanto(expressao, lista);}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void le() throws ParseException {
-             Token t;
+  static final public ComandoAltoNivel entrada() throws ParseException {
+                              Token t; ComandoAltoNivel cmd = null;
     jj_consume_token(LEITURA);
     t = jj_consume_token(VAR);
                 AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
@@ -190,11 +215,15 @@ public class Compilador implements CompiladorConstants {
                 AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
     }
     jj_consume_token(PV);
+          {if (true) return new ComandoEntrada(new Simbolo(t, TipoDado.getTipoDado("NUMERO"), tabela.getMarcador()));}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void exibe() throws ParseException {
+  static final public ComandoAltoNivel saida() throws ParseException {
+                             ComandoSaida cmd = null; Expressao exp, exp2;
     jj_consume_token(EXIBE);
-    expressao();
+    exp = expressao();
+                cmd = new ComandoSaida(exp);
     label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -206,19 +235,25 @@ public class Compilador implements CompiladorConstants {
         break label_4;
       }
       jj_consume_token(VIRGULA);
-      expressao();
+      exp2 = expressao();
+                        cmd.getExpressao().concatExpressoes(exp, exp2);
     }
     jj_consume_token(PV);
+          {if (true) return new ComandoSaida(exp);}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void expressao() throws ParseException {
-                    Expressao expressao = new Expressao();
+  static final public Expressao expressao() throws ParseException {
+                         Expressao expressao = new Expressao();
     expressaoAuxiliar(expressao);
                 System.out.println(expressao.getListaExpressaoPosFixa().toString());
+                System.out.println(expressao.getListaExpressaoInFixa().toString());
+          {if (true) return expressao;}
+    throw new Error("Missing return statement in function");
   }
 
   static final public void expressaoAuxiliar(Expressao expressao) throws ParseException {
-                                               Token t; Item item;
+                                               Token t; Item item; Expressao exp= new Expressao();
     termo(expressao);
     label_5:
     while (true) {
@@ -231,19 +266,21 @@ public class Compilador implements CompiladorConstants {
         break label_5;
       }
       t = jj_consume_token(OU);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.OU));
       termo(expressao);
-                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.OU));
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.OU));
     }
   }
 
   static final public void termo(Expressao expressao) throws ParseException {
-                                   Token t; Item item;
-    termo1(expressao);
+                                   Token t; Item item; Expressao exp = new Expressao();
+    termo1(exp);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IGUAL:
       t = jj_consume_token(IGUAL);
-      termo1(expressao);
-                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.IGUAL));
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.IGUAL));
+      termo1(exp);
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.IGUAL));
       break;
     default:
       jj_la1[9] = jj_gen;
@@ -265,8 +302,9 @@ public class Compilador implements CompiladorConstants {
         break label_6;
       }
       t = jj_consume_token(CONCAT);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.CONCAT));
       termo2(expressao);
-                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.CONCAT));
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.CONCAT));
     }
   }
 
@@ -287,17 +325,21 @@ public class Compilador implements CompiladorConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case SOMA:
         t = jj_consume_token(SOMA);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.ADD));
+        termo3(expressao);
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.ADD));
         break;
       case SUB:
         t = jj_consume_token(SUB);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.ADD));
+        termo3(expressao);
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.ADD));
         break;
       default:
         jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      termo3(expressao);
-                expressao.addItemPosfixo(item = new Operador(t, t.equals(TipoOperador.ADD) ? TipoOperador.ADD : TipoOperador.SUB));
     }
   }
 
@@ -318,22 +360,26 @@ public class Compilador implements CompiladorConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MUL:
         t = jj_consume_token(MUL);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.MUL));
+        termo4(expressao);
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.MUL));
         break;
       case DIV:
         t = jj_consume_token(DIV);
+                                expressao.addItemInfixo(item = new Operador(t, TipoOperador.DIV));
+        termo4(expressao);
+                                expressao.addItemPosfixo(item = new Operador(t, TipoOperador.DIV));
         break;
       default:
         jj_la1[14] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      termo4(expressao);
-                expressao.addItemPosfixo(item = new Operador(t, t.equals(TipoOperador.MUL) ? TipoOperador.MUL : TipoOperador.DIV));
     }
   }
 
   static final public void termo4(Expressao expressao) throws ParseException {
-                                    Token t; Token tipo; Token valor; Token sinal; Item item;
+                                    Token t; Token tipo; Token valor; Token sinal; Item item; Expressao exp = new Expressao();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case AP:
       jj_consume_token(AP);
@@ -343,28 +389,35 @@ public class Compilador implements CompiladorConstants {
     case NUM:
       valor = jj_consume_token(NUM);
                 expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
+                expressao.addItemInfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
       break;
     case SOMA:
       sinal = jj_consume_token(SOMA);
       valor = jj_consume_token(NUM);
                 expressao.addItemPosfixo(item = new Operador(sinal, TipoOperador.ADD));
+                expressao.addItemInfixo(item = new Operador(sinal, TipoOperador.ADD));
                 expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
+                expressao.addItemInfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
       break;
     case SUB:
       sinal = jj_consume_token(SUB);
       valor = jj_consume_token(NUM);
                 expressao.addItemPosfixo(item = new Operador(sinal, TipoOperador.SUB));
+                expressao.addItemInfixo(item = new Operador(sinal, TipoOperador.SUB));
                 expressao.addItemPosfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
+                expressao.addItemInfixo(item = new Operando(valor, TipoDado.NUM, TipoElemento.CTE));
       break;
     case VAR:
       t = jj_consume_token(VAR);
 //		System.out.println(tabela.toString());
                 AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
                 expressao.addItemPosfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
+                expressao.addItemInfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
       break;
     case STRING:
       valor = jj_consume_token(STRING);
                 expressao.addItemPosfixo(item = new Operando(valor, TipoDado.STR, TipoElemento.CTE));
+                expressao.addItemInfixo(item = new Operando(valor, TipoDado.STR, TipoElemento.CTE));
       break;
     default:
       jj_la1[15] = jj_gen;
