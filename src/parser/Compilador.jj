@@ -1,3 +1,13 @@
+// __________________________________________________
+// __________________/\\\\\\\\\______________________
+// _____/\\\\\\\\\\__/\\\/////\\\_____/\\\\\\\\______
+// _____\/\\\//////__\/\\\\\\\\\\____/\\\//////______
+// ______\/\\\\\\\\\\_\/\\\//////____/\\\____________
+// _______\////////\\\_\/\\\_________\//\\\__________
+// _________/\\\\\\\\\\_\/\\\__________\///\\\\\\\\__
+// _________\//////////__\///_____________\////////__
+// __________________________________________________
+
 options {
 	DEBUG_PARSER = false;
 	DEBUG_TOKEN_MANAGER = false;
@@ -24,7 +34,7 @@ public class Compilador {
 			compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
 			listaComandosAltoNivel = Compilador.inicio();
 			System.out.println("\nTabela de simbolos: \n" + tabela);
-			System.out.println("\n-----\nLista completa dos comandos apos a 1a passagem do compilador: \n" + listaComandosAltoNivel);
+			System.out.println("\nComandos Primeira Passagem: \n" + listaComandosAltoNivel);
 
 			
 			ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
@@ -93,12 +103,12 @@ TOKEN : {
 }
 
 /******************************************************************/
-ListaComandosAltoNivel inicio() : {ListaComandosAltoNivel lista;} {
+ListaComandosAltoNivel inicio() : {ListaComandosAltoNivel lista; } {
 	lista = programa() <EOF>
 	{ return lista; }
 }
 
-ListaComandosAltoNivel programa() : {ComandoAltoNivel cmd = null; ListaComandosAltoNivel lista = new ListaComandosAltoNivel(); } {
+ListaComandosAltoNivel programa() : {ComandoAltoNivel cmd = null; ListaComandosAltoNivel lista = new ListaComandosAltoNivel();} {
 	( cmd = comando() {
 	  		if(cmd != null) lista.addComando(cmd);
 	} )*
@@ -129,7 +139,7 @@ void declaracao() : {Token t; TipoDado tipo; } {
 	)
 	
 	t = <VAR> {
-	  	System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
+	  	//System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
 		tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
 	}
 	( <ATRIB> expressao() )? 

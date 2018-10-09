@@ -19,7 +19,7 @@ public class Compilador implements CompiladorConstants {
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
                         listaComandosAltoNivel = Compilador.inicio();
                         System.out.println("\u005cnTabela de simbolos: \u005cn" + tabela);
-                        System.out.println("\u005cn-----\u005cnLista completa dos comandos apos a 1a passagem do compilador: \u005cn" + listaComandosAltoNivel);
+                        System.out.println("\u005cnComandos Primeira Passagem: \u005cn" + listaComandosAltoNivel);
 
 
                         ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
@@ -123,7 +123,7 @@ public class Compilador implements CompiladorConstants {
       throw new ParseException();
     }
     t = jj_consume_token(VAR);
-                System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
+                //System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
                 tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ATRIB:

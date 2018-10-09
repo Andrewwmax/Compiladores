@@ -4,20 +4,21 @@ import java.util.LinkedList;
 
 public class ListaComandosAltoNivel {
 
-    LinkedList<ComandoAltoNivel> ListaComandosAltoNivel;
+    LinkedList<ComandoAltoNivel> listaComandosAltoNivel;
 
     public void ListaComandosAltoNivel() {
+        this.listaComandosAltoNivel = new LinkedList<ComandoAltoNivel>();
     }
 
     public void addComando(ComandoAltoNivel _cmd) {
-    	this.ListaComandosAltoNivel.add(_cmd);
+    	this.listaComandosAltoNivel.add(_cmd);
     }
 
     public LinkedList<ComandoAltoNivel> getListaComandosAltoNivel() {
-        return this.ListaComandosAltoNivel;
+        return this.listaComandosAltoNivel;
     }
 
     public String toString() {
-        return null;
+        return this.listaComandosAltoNivel.toString();
     }
 }
