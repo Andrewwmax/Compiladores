@@ -20,7 +20,7 @@ public class ComandoEnquanto extends ComandoAltoNivel {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	return this.listaComandosAltoNivelTrue.toString();
     }
 
     public Expressao getExpressao() {

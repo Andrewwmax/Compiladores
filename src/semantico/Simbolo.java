@@ -46,8 +46,8 @@ public class Simbolo {
     @Override
     public String toString() {
 
-        return "\nNome:" + this.getNome() + "\tToken" + this.token.image + "\tTipo:" + this.getTipo()
-                + "\tReferência:" + this.getReferencia();
+        return "\nNome:" + this.getNome() + "\tToken: " + this.token.image 
+        	 + "\tTipo:" + this.getTipo() + "\tReferência:" + this.getReferencia();
     }
 
     public void setTipo(TipoDado tipo) {

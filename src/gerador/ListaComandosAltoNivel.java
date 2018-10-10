@@ -6,7 +6,7 @@ public class ListaComandosAltoNivel {
 
     LinkedList<ComandoAltoNivel> listaComandosAltoNivel;
 
-    public void ListaComandosAltoNivel() {
+    public ListaComandosAltoNivel() {
         this.listaComandosAltoNivel = new LinkedList<ComandoAltoNivel>();
     }
 
@@ -19,6 +19,6 @@ public class ListaComandosAltoNivel {
     }
 
     public String toString() {
-        return this.listaComandosAltoNivel.toString();
+        return "Lista de Comandos:\n"+ this.listaComandosAltoNivel.toString();
     }
 }

@@ -15,6 +15,7 @@ options {
 
 PARSER_BEGIN(Compilador)
 package parser;
+
 import semantico.*;
 import apoio.*;
 import gerador.*;
