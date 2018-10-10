@@ -25,7 +25,6 @@ import java.io.*;
 public class Compilador {
 	static Tabela tabela = new Tabela();
 	
-
 	public static void main(String args[])  throws ParseException, IOException  {
 		Compilador compilador = null;
 		try {
@@ -128,35 +127,32 @@ ComandoAltoNivel comando() : { ComandoAltoNivel cmd = null; } {
 	
 }
 
-void declaracao() : {Token t; TipoDado tipo; } { 
-	(
-		<NUMERO> {
-			tipo = TipoDado.NUM;
-		} 
-		|
-		<PALAVRA> {
-			tipo = TipoDado.STR;
-		}
-	)
-	
-	t = <VAR> {
-	  	//System.out.println("TDado " + tipo.toString() + ". Ref " + tabela.getMarcador());
-		tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
+void declaracao() : {Token t; Expressao expressao = null;} { 
+	(<NUMERO> t = <VAR> {
+		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.NUM, tabela.getMarcador());
 	}
 	( <ATRIB> expressao() )? 
 	( <VIRGULA> t = <VAR> {
-			tabela.adicionarTabela(tabela, t, tipo, tabela.getMarcador());
-		}
-		( <ATRIB> expressao() )? 
-	)* <PV>
-	
+		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.NUM, tabela.getMarcador());
+	}
+	( <ATRIB> expressao() )? )* <PV>
+	|
+	 <PALAVRA> t = <VAR> {
+		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.STR, tabela.getMarcador());
+	}
+	( <ATRIB> expressao() )? 
+	( <VIRGULA> t = <VAR> {
+		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.STR, tabela.getMarcador());
+	}
+	( <ATRIB> expressao() )? )* <PV>
+	)
 }
 
 ComandoAltoNivel atribuicao() : {Token t; ComandoAltoNivel cmd = null; Expressao expressao; } {
 	t = <VAR> {
 		AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
 	} <ATRIB> expressao = expressao() <PV>
-	{ return new ComandoAtribuicao(new Simbolo(t, TipoDado.getTipoDado(t.image), tabela.getMarcador()), expressao); }
+	{ return new ComandoAtribuicao(new Simbolo(t, Compilador.tabela.consultaSimbolo(t.image).getTipo(), tabela.getMarcador()), expressao); }
 	
 }
 
@@ -201,12 +197,12 @@ ComandoAltoNivel saida() : { ComandoSaida cmd = null; Expressao exp, exp2; } {
 Expressao expressao() : {Expressao expressao = new Expressao(); } {
 	expressaoAuxiliar(expressao) {
 		System.out.println(expressao.getListaExpressaoPosFixa().toString());
-		System.out.println(expressao.getListaExpressaoInFixa().toString());
+//		System.out.println(expressao.getListaExpressaoInFixa().toString());
 	}
 	{ return expressao; }
 }
 
-void expressaoAuxiliar(Expressao expressao) : {Token t; Item item; Expressao exp= new Expressao(); } {
+void expressaoAuxiliar(Expressao expressao) : {Token t; Item item; } {
 	termo(expressao) (
 		t = <OU> {
 				expressao.addItemInfixo(item = new Operador(t, TipoOperador.OU));
@@ -217,12 +213,12 @@ void expressaoAuxiliar(Expressao expressao) : {Token t; Item item; Expressao exp
 	)*
 }
 
-void termo(Expressao expressao) : {Token t; Item item; Expressao exp = new Expressao(); } {
-	termo1(exp) (
+void termo(Expressao expressao) : {Token t; Item item; } {
+	termo1(expressao) (
 		t = <IGUAL> {
 				expressao.addItemInfixo(item = new Operador(t, TipoOperador.IGUAL));
 		}
-		termo1(exp) {
+		termo1(expressao) {
 				expressao.addItemPosfixo(item = new Operador(t, TipoOperador.IGUAL));
 		}
 	)?
@@ -296,8 +292,8 @@ void termo4(Expressao expressao) : {Token t; Token tipo; Token valor; Token sina
 	| t = <VAR> {
 //		System.out.println(tabela.toString());
 		AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
-		expressao.addItemPosfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
-		expressao.addItemInfixo(item = new Operando(t, tabela.consultaTipo(t.image), TipoElemento.CTE));
+		expressao.addItemPosfixo(item = new Operando(t, Compilador.tabela.consultaSimbolo(t.image).getTipo(), TipoElemento.CTE));
+		expressao.addItemInfixo(item = new Operando(t, Compilador.tabela.consultaSimbolo(t.image).getTipo(), TipoElemento.CTE));
 	}
 	| valor = <STRING> {
 		expressao.addItemPosfixo(item = new Operando(valor, TipoDado.STR, TipoElemento.CTE));

@@ -62,7 +62,7 @@ public class Expressao {
 
     @Override
     public String toString() {
-        return "\nExpressao posfixa: " + this.expressaoPosfixa + "";
+        return "\nExpressao posfixa: " + this.expressaoPosfixa + "\nExpressao Infixa: " + this.expressaoInfixa + "";
     }
 
     /*
