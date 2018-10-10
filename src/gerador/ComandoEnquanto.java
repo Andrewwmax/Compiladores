@@ -20,7 +20,8 @@ public class ComandoEnquanto extends ComandoAltoNivel {
 
     @Override
     public String toString() {
-    	return this.listaComandosAltoNivelTrue.toString();
+    	return "Comando Enquanto:" + this.expressao.toString() 
+    		 + "\nLista de Comandos True:" + this.listaComandosAltoNivelTrue.toString();
     }
 
     public Expressao getExpressao() {

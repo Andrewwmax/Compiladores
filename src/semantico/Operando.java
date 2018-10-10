@@ -15,7 +15,7 @@ public class Operando extends Item {
 
     @Override
     public String toString() {
-        return "" + this.tipoDado + this.tipoElemento;
+        return /*this.tipoDado + " " + this.tipoElemento*/ this.token.image;
     }
 
     public TipoElemento getTipoElemento() {

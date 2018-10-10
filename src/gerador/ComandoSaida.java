@@ -18,8 +18,7 @@ public class ComandoSaida extends ComandoAltoNivel {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+    	return "\n\nComando Exibe:" + this.expressao.toString();
     }
 
     public Expressao getExpressao() {

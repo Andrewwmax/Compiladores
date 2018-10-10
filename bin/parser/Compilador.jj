@@ -176,8 +176,7 @@ ComandoAltoNivel entrada() : {Token t; ComandoAltoNivel cmd = null; } {
 	( <VIRGULA> t = <VAR> {
 		AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
 	} )* <PV>
-	{ return new ComandoEntrada(new Simbolo(t, TipoDado.getTipoDado("NUMERO"), tabela.getMarcador())); }
-	
+	{ return new ComandoEntrada(new Simbolo(t, Compilador.tabela.consultaSimbolo(t.image).getTipo(), tabela.getMarcador())); }
 }
 
 ComandoAltoNivel saida() : { ComandoSaida cmd = null; Expressao exp, exp2; } {

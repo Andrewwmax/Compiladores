@@ -13,7 +13,7 @@ public class Operador extends Item {
 
     @Override
     public String toString() {
-        return "" + this.tipoOperador;
+        return /* this.tipoOperador + */this.token.image;
     }
 
     public TipoOperador getTipoOperador() {

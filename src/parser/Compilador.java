@@ -247,7 +247,7 @@ public class Compilador implements CompiladorConstants {
                 AcoesSemanticas.verificarInicializacao(tabela, t.image, t.endLine);
     }
     jj_consume_token(PV);
-          {if (true) return new ComandoEntrada(new Simbolo(t, TipoDado.getTipoDado("NUMERO"), tabela.getMarcador()));}
+          {if (true) return new ComandoEntrada(new Simbolo(t, Compilador.tabela.consultaSimbolo(t.image).getTipo(), tabela.getMarcador()));}
     throw new Error("Missing return statement in function");
   }
 

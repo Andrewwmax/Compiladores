@@ -3,13 +3,12 @@ package gerador;
 import primitivo.ListaComandosPrimitivos;
 
 public abstract class ComandoCondicional extends ComandoAltoNivel {
-	Expressao _exp;
-	ListaComandosAltoNivel _lista;
+	Expressao expressao;
+	ListaComandosAltoNivel lista;
 	
     public ComandoCondicional(Expressao _exp, ListaComandosAltoNivel _lista) {
-		super();
-		this._exp = _exp;
-		this._lista = _lista;
+		this.expressao = _exp;
+		this.lista = _lista;
     }
 
     @Override
@@ -20,8 +19,8 @@ public abstract class ComandoCondicional extends ComandoAltoNivel {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "\n\nComando Condicional" + this.expressao.toString()
+        	  + this.lista.toString();
     }
 
 }

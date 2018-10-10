@@ -15,7 +15,8 @@ public class ComandoAtribuicao extends ComandoAltoNivel {
     
     @Override
     public String toString() {
-    	return "\n\nComando Atribuicao de simbolo:" + this.variavel.toString() + "\n\nExpresssao:" + this.expressao.toString();
+    	return "\n\nComando Atribuicao de simbolo:" + this.variavel.toString() 
+    		  + this.expressao.toString();
     }
 
     @Override

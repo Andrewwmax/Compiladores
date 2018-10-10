@@ -51,7 +51,7 @@ public class Expressao {
         return null;
     }
 
-    public String strExpInfixa() {
+    public String strExpPosfixa() {
         String saida = "";
         for (Item item : this.expressaoPosfixa) {
             if(item instanceof Operador) saida += ((Operador) item).toString();
@@ -62,7 +62,8 @@ public class Expressao {
 
     @Override
     public String toString() {
-        return "\nExpressao posfixa: " + this.expressaoPosfixa + "\nExpressao Infixa: " + this.expressaoInfixa + "";
+        return "\n\tExpressao Posfixa: " + this.expressaoPosfixa.toString()
+        	 + "\n\tExpressao Infixa: " + this.expressaoInfixa.toString();
     }
 
     /*

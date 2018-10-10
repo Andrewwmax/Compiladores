@@ -18,8 +18,7 @@ public class ComandoEntrada extends ComandoAltoNivel {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "\n\nComando Le:" + this.variavel.toString();
     }
 
     public Simbolo getVariavel() {
