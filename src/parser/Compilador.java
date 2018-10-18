@@ -17,12 +17,17 @@ public class Compilador implements CompiladorConstants {
 
                         ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
+
+                        //Primeira Passagem
                         listaComandosAltoNivel = Compilador.inicio();
-                        System.out.println("\u005cnTabela de simbolos: \u005cn" + tabela);
+                        //System.out.println("\nTabela de simbolos: \n" + tabela);
                         System.out.println("\u005cnComandos Primeira Passagem: \u005cn" + listaComandosAltoNivel);
 
-
+                        System.out.println("\u005cn\u005cn\u005cn\u005cn =============================================== \u005cn\u005cn\u005cn\u005cn");
+                        //Segunda Passagem
                         ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
+                        listaComandosPrimitivos = listaComandosAltoNivel.geraListaComandosPrimitivosTotal();
+                        System.out.println("\u005cnComandos Segunda passagem: \u005cn" + listaComandosPrimitivos);
 
                         String codigoDestino = "";
 
@@ -34,7 +39,7 @@ public class Compilador implements CompiladorConstants {
                         System.out.println("Erro lexico\u005cn" + e.getMessage());
                 }
                 catch(ParseException e) {
-                        System.out.println("Erro sint\u00e1tico\u005cn" + e.getMessage());
+                        System.out.println("Erro sint\u00c3\u00a1tico\u005cn" + e.getMessage());
                 }
                 catch(ErroSemantico e) {
                         System.out.println(e.getMessage());
@@ -278,8 +283,6 @@ public class Compilador implements CompiladorConstants {
   static final public Expressao expressao() throws ParseException {
                          Expressao expressao = new Expressao();
     expressaoAuxiliar(expressao);
-                System.out.println(expressao.getListaExpressaoPosFixa().toString());
-//		System.out.println(expressao.getListaExpressaoInFixa().toString());
 
           {if (true) return expressao;}
     throw new Error("Missing return statement in function");
