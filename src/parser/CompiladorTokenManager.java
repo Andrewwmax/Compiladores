@@ -5,6 +5,7 @@ import apoio.*;
 import gerador.*;
 import primitivo.*;
 import java.io.*;
+import java.util.LinkedList;
 
 /** Token Manager. */
 public class CompiladorTokenManager implements CompiladorConstants

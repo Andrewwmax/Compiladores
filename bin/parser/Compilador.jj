@@ -21,6 +21,8 @@ import apoio.*;
 import gerador.*;
 import primitivo.*;
 import java.io.*;
+import java.util.LinkedList;
+
 
 public class Compilador {
 	static Tabela tabela = new Tabela();
@@ -33,11 +35,23 @@ public class Compilador {
 			ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
 			compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
 			listaComandosAltoNivel = Compilador.inicio();
-			System.out.println("\nTabela de simbolos: \n" + tabela);
-			System.out.println("\nComandos Primeira Passagem: \n" + listaComandosAltoNivel);
+//			System.out.println("\nTabela de simbolos: \n" + tabela);
+//			System.out.println("\nComandos Primeira Passagem: \n" + listaComandosAltoNivel);
 
-			
 			ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
+
+			System.out.println(listaComandosAltoNivel.getListaComandosAltoNivel().get(0));
+
+//            listaComandosPrimitivos.addComando(listaComandosAltoNivel.getListaComandosAltoNivel().get(2).geraListaComandosPrimitivos().getListaComandosPrimitivos().get(2));
+
+//			listaComandosPrimitivos.add;
+//            for(ComandoAltoNivel cmd : listaComandosAltoNivel.getListaComandosAltoNivel()) {
+//				if(cmd != null)
+//					listaComandosPrimitivos = listaComandosPrimitivos.concatListaPrimitivo(listaComandosPrimitivos, cmd.geraListaComandosPrimitivos());
+//			}
+//			
+//			System.out.println("\nComandos Segunda Passagem: \n" + listaComandosPrimitivos.toString());
+
 
 			String codigoDestino = "";
 			
@@ -103,14 +117,17 @@ TOKEN : {
 }
 
 /******************************************************************/
-ListaComandosAltoNivel inicio() : {ListaComandosAltoNivel lista; } {
+ListaComandosAltoNivel inicio() : { ListaComandosAltoNivel lista; } {
 	lista = programa() <EOF>
 	{ return lista; }
 }
 
 ListaComandosAltoNivel programa() : {ComandoAltoNivel cmd = null; ListaComandosAltoNivel lista = new ListaComandosAltoNivel();} {
 	( cmd = comando() {
-	  		if(cmd != null) lista.addComando(cmd);
+		if(cmd != null) {
+	  		lista.addComando(cmd);
+//			cmd.geraListaComandosPrimitivos();
+	  	}
 	} )*
 	{ return lista; }
 }
@@ -128,7 +145,7 @@ ComandoAltoNivel comando() : { ComandoAltoNivel cmd = null; } {
 }
 
 void declaracao() : {Token t; Expressao expressao = null;} { 
-	(<NUMERO> t = <VAR> {
+	( <NUMERO> t = <VAR> {
 		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.NUM, tabela.getMarcador());
 	}
 	( <ATRIB> expressao() )? 
@@ -137,7 +154,7 @@ void declaracao() : {Token t; Expressao expressao = null;} {
 	}
 	( <ATRIB> expressao() )? )* <PV>
 	|
-	 <PALAVRA> t = <VAR> {
+	  <PALAVRA> t = <VAR> {
 		Compilador.tabela.adicionarTabela(tabela, t, TipoDado.STR, tabela.getMarcador());
 	}
 	( <ATRIB> expressao() )? 
@@ -195,7 +212,7 @@ ComandoAltoNivel saida() : { ComandoSaida cmd = null; Expressao exp, exp2; } {
 
 Expressao expressao() : {Expressao expressao = new Expressao(); } {
 	expressaoAuxiliar(expressao) {
-		System.out.println(expressao.getListaExpressaoPosFixa().toString());
+//		System.out.println(expressao.getListaExpressaoPosFixa().toString());
 //		System.out.println(expressao.getListaExpressaoInFixa().toString());
 	}
 	{ return expressao; }

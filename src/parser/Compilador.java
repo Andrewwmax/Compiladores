@@ -6,6 +6,8 @@ import apoio.*;
 import gerador.*;
 import primitivo.*;
 import java.io.*;
+import java.util.LinkedList;
+
 
 public class Compilador implements CompiladorConstants {
         static Tabela tabela = new Tabela();
@@ -18,11 +20,23 @@ public class Compilador implements CompiladorConstants {
                         ListaComandosAltoNivel listaComandosAltoNivel = new ListaComandosAltoNivel();
                         compilador = new Compilador(new FileInputStream(Config.NOMEARQ));
                         listaComandosAltoNivel = Compilador.inicio();
-                        System.out.println("\u005cnTabela de simbolos: \u005cn" + tabela);
-                        System.out.println("\u005cnComandos Primeira Passagem: \u005cn" + listaComandosAltoNivel);
-
+//			System.out.println("\nTabela de simbolos: \n" + tabela);
+//			System.out.println("\nComandos Primeira Passagem: \n" + listaComandosAltoNivel);
 
                         ListaComandosPrimitivos listaComandosPrimitivos = new ListaComandosPrimitivos();
+
+                        System.out.println("DISGRASSA\u005cn" +listaComandosAltoNivel.getListaComandosAltoNivel().get(0));
+
+//            listaComandosPrimitivos.addComando(listaComandosAltoNivel.getListaComandosAltoNivel().get(2).geraListaComandosPrimitivos().getListaComandosPrimitivos().get(2));
+
+//			listaComandosPrimitivos.add;
+//            for(ComandoAltoNivel cmd : listaComandosAltoNivel.getListaComandosAltoNivel()) {
+//				if(cmd != null)
+//					listaComandosPrimitivos = listaComandosPrimitivos.concatListaPrimitivo(listaComandosPrimitivos, cmd.geraListaComandosPrimitivos());
+//			}
+//			
+//			System.out.println("\nComandos Segunda Passagem: \n" + listaComandosPrimitivos.toString());
+
 
                         String codigoDestino = "";
 
@@ -43,7 +57,7 @@ public class Compilador implements CompiladorConstants {
 
 /******************************************************************/
   static final public ListaComandosAltoNivel inicio() throws ParseException {
-                                   ListaComandosAltoNivel lista;
+                                    ListaComandosAltoNivel lista;
     lista = programa();
     jj_consume_token(0);
           {if (true) return lista;}
@@ -69,7 +83,10 @@ public class Compilador implements CompiladorConstants {
         break label_1;
       }
       cmd = comando();
-                        if(cmd != null) lista.addComando(cmd);
+                if(cmd != null) {
+                        lista.addComando(cmd);
+//			cmd.geraListaComandosPrimitivos();
+                }
     }
           {if (true) return lista;}
     throw new Error("Missing return statement in function");
@@ -278,8 +295,6 @@ public class Compilador implements CompiladorConstants {
   static final public Expressao expressao() throws ParseException {
                          Expressao expressao = new Expressao();
     expressaoAuxiliar(expressao);
-                System.out.println(expressao.getListaExpressaoPosFixa().toString());
-//		System.out.println(expressao.getListaExpressaoInFixa().toString());
 
           {if (true) return expressao;}
     throw new Error("Missing return statement in function");

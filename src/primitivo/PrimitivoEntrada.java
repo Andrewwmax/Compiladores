@@ -20,8 +20,9 @@ public class PrimitivoEntrada extends ComandoPrimitivo {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+    	return "\nPrimitivo Entrada:" 
+    		 + "\nReferencia: " + this.referencia
+    		 + "\nTipo: " + this.tipo;
     }
 
 }

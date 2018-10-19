@@ -12,7 +12,11 @@ public class PrimitivoSaida extends ComandoPrimitivo {
         this.expDestinoAssembler = expDestinoAssembler;
     }
 
-    @Override
+    public PrimitivoSaida(TipoDado tipo) {
+		this.tipo = tipo;
+	}
+
+	@Override
     public String geraCodigoDestino() {
         // TODO Auto-generated method stub
         return null;
@@ -20,8 +24,9 @@ public class PrimitivoSaida extends ComandoPrimitivo {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "\nPrimitivo Saida:"
+        	 + "\nTipo:" + this.tipo 
+        	 + "\nExpressao Destino:" + this.expDestinoAssembler;
     }
 
 }

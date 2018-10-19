@@ -10,7 +10,11 @@ public abstract class Item {
         this.token = token;
     }
 
-    public String getLexema() {
+    public Token getToken() {
+		return token;
+	}
+
+	public String getLexema() {
         return null;
     }
 

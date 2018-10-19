@@ -11,8 +11,15 @@ public class PrimitivoSeExpFalsoGoto extends ComandoPrimitivo {
         this.labelFalse = labelFalse;
         this.listaComandosPrimitivosTrue = listaComandosPrimitivosTrue;
     }
+    
 
-    @Override
+    public PrimitivoSeExpFalsoGoto(PrimitivoLabel labelFalse, ListaComandosPrimitivos listaComandosPrimitivosTrue) {
+		this.labelFalse = labelFalse;
+		this.listaComandosPrimitivosTrue = listaComandosPrimitivosTrue;
+	}
+
+
+	@Override
     public String geraCodigoDestino() {
         // TODO Auto-generated method stub
         return null;
@@ -20,8 +27,10 @@ public class PrimitivoSeExpFalsoGoto extends ComandoPrimitivo {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "\nPrimitivo Se Exp Falso Goto:" 
+        	 + "\nExpressao Destino:" + this.expDestinoAssembler
+        	 + this.labelFalse.toString()
+        	 + this.listaComandosPrimitivosTrue.toString();
     }
 
 }

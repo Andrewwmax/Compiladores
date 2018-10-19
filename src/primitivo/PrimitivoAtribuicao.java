@@ -14,16 +14,21 @@ public class PrimitivoAtribuicao extends ComandoPrimitivo {
         this.expDestinoAssembler = expDestinoAssembler;
     }
 
-    @Override
+    public PrimitivoAtribuicao(int referencia, TipoDado tipo) {
+		this.referencia = referencia;
+		this.tipo = tipo;
+	}
+
+	@Override
     public String geraCodigoDestino() {
-        // TODO Auto-generated method stub
-        return null;
+    	return null;
     }
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "\n\nReferencia: " + this.referencia
+        	 + "\nTipo: " + this.tipo.toString() 
+        	 + "\nExpressao Destino: " + this.expDestinoAssembler;
     }
 
     public int getReferencia() {

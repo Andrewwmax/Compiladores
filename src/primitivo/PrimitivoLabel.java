@@ -1,7 +1,8 @@
 package primitivo;
 
 public class PrimitivoLabel extends ComandoPrimitivo {
-    private String label;
+   
+	private String label;
     private static int contador;
 
     public PrimitivoLabel(String label) {
@@ -16,8 +17,9 @@ public class PrimitivoLabel extends ComandoPrimitivo {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+    	return "\nPrimitivo Label:"
+			 + "\nLabel: " + this.label
+			 + "Contador: " + contador;
     }
 
 }

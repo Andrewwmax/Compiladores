@@ -1,6 +1,8 @@
 package gerador;
 
 import primitivo.ListaComandosPrimitivos;
+import primitivo.PrimitivoLabel;
+import primitivo.PrimitivoSeExpFalsoGoto;
 
 public class ComandoCondicionalSimples extends ComandoCondicional {
 
@@ -15,7 +17,8 @@ public class ComandoCondicionalSimples extends ComandoCondicional {
 
     @Override
     public ListaComandosPrimitivos geraListaComandosPrimitivos() {
-        return super.geraListaComandosPrimitivos(); //To change body of generated methods, choose Tools | Templates.
+    	ListaComandosPrimitivos lista = new ListaComandosPrimitivos();
+    	return null;
     }
 
 }

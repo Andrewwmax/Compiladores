@@ -19,6 +19,6 @@ public class ListaComandosAltoNivel {
     }
 
     public String toString() {
-        return "Lista de Comandos:\n"+ this.listaComandosAltoNivel.toString();
+        return "\nLista de Comandos Alto Nivel:\n"+ this.listaComandosAltoNivel.toString();
     }
 }

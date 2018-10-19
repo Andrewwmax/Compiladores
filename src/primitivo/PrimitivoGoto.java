@@ -16,8 +16,7 @@ public class PrimitivoGoto extends ComandoPrimitivo {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return null;
+    	return "\nPrimitivo Goto:" 
+    		 + this.label.toString();
     }
-
 }

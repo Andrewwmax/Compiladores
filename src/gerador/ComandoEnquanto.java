@@ -1,6 +1,7 @@
 package gerador;
 
 import primitivo.ListaComandosPrimitivos;
+import primitivo.PrimitivoAtribuicao;
 import semantico.Simbolo;
 
 public class ComandoEnquanto extends ComandoAltoNivel {
@@ -15,8 +16,10 @@ public class ComandoEnquanto extends ComandoAltoNivel {
 
 	@Override
     public ListaComandosPrimitivos geraListaComandosPrimitivos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+		ListaComandosPrimitivos lista = new ListaComandosPrimitivos();
+		
+    	return lista;
+	}
 
     @Override
     public String toString() {
